@@ -1,131 +1,169 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificación de KEY</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 Scripts Free</title>
 
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: black;
-            font-family: Arial, sans-serif;
-        }
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Arial, sans-serif;
+    color:white;
+}
 
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
 
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1;
-            color: white;
-        }
+.container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    z-index:2;
+}
 
-        input {
-            width: 260px;
-            padding: 12px;
-            border: 1px solid white;
-            border-radius: 8px;
-            background: #111;
-            color: white;
-            text-align: center;
-            outline: none;
-        }
+.logo{
+    width:250px;
+    margin-bottom:20px;
+}
 
-        button {
-            margin-top: 10px;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 8px;
-            background: white;
-            color: black;
-            cursor: pointer;
-            font-weight: bold;
-        }
+h1{
+    margin:0;
+    font-size:28px;
+}
 
-        #mensaje {
-            margin-top: 15px;
-        }
-    </style>
+p{
+    margin:5px;
+}
+
+input{
+    margin-top:15px;
+    padding:12px;
+    width:250px;
+    border:none;
+    border-radius:10px;
+    background:#111;
+    color:white;
+    text-align:center;
+    font-size:16px;
+}
+
+button{
+    margin-top:10px;
+    padding:10px 25px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#maintenance{
+    display:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:white;
+    color:black;
+    z-index:999;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+#maintenance h1{
+    font-size:70px;
+}
+</style>
 </head>
+
 <body>
 
-<canvas id="bg"></canvas>
+<canvas id="particles"></canvas>
 
 <div class="container">
-    <h2>Ingresa tu KEY</h2>
-    <input type="password" id="keyInput" placeholder="Escribe la KEY">
+
+    <!-- Cambia logo.png por el nombre de tu imagen -->
+    <img src="logo.png" class="logo">
+
+    <h1>SCRIPTS DEL 01 FREE</h1>
+    <p>CONTRASEÑA: EL 01</p>
+
+    <input type="password" id="key" placeholder="Ingresa la contraseña">
     <br>
-    <button onclick="verificarKey()">Entrar</button>
-    <p id="mensaje"></p>
+    <button onclick="checkKey()">Entrar</button>
+
+</div>
+
+<div id="maintenance">
+    <h1>404</h1>
+    <h2>PÁGINA EN MANTENIMIENTO</h2>
+    <p>SCRIPTS NO DISPONIBLES</p>
 </div>
 
 <script>
-    function verificarKey() {
-        const keyCorrecta = "EL01-4E8ID1H7A1WY81";
-        const keyIngresada = document.getElementById("keyInput").value;
+function checkKey(){
+    const key = document.getElementById("key").value;
 
-        if (keyIngresada === keyCorrecta) {
-            document.getElementById("mensaje").innerText = "Acceso concedido";
-        } else {
-            document.getElementById("mensaje").innerText = "KEY incorrecta";
-        }
+    if(key === "EL 01"){
+        document.getElementById("maintenance").style.display = "flex";
+    }else{
+        alert("Contraseña incorrecta");
     }
+}
 
-    const canvas = document.getElementById("bg");
-    const ctx = canvas.getContext("2d");
+// Partículas pequeñas
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<200;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*1.5+0.3,
+        speed:(Math.random()*0.5)+0.1
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.fillStyle="white";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+
+        p.y += p.speed;
+
+        if(p.y > canvas.height){
+            p.y = 0;
+            p.x = Math.random()*canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    const particles = [];
-
-    for (let i = 0; i < 120; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 3 + 1,
-            speedX: (Math.random() - 0.5) * 1,
-            speedY: (Math.random() - 0.5) * 1
-        });
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = "white";
-            ctx.fill();
-
-            p.x += p.speedX;
-            p.y += p.speedY;
-
-            if (p.x < 0) p.x = canvas.width;
-            if (p.x > canvas.width) p.x = 0;
-            if (p.y < 0) p.y = canvas.height;
-            if (p.y > canvas.height) p.y = 0;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
+});
 </script>
 
 </body>

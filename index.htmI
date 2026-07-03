@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01 Scripts Free</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Arial, sans-serif;
+    color:white;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
+
+.container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    z-index:2;
+}
+
+.logo{
+    width:250px;
+    margin-bottom:20px;
+}
+
+h1{
+    margin:0;
+    font-size:28px;
+}
+
+p{
+    margin:5px;
+}
+
+input{
+    margin-top:15px;
+    padding:12px;
+    width:250px;
+    border:none;
+    border-radius:10px;
+    background:#111;
+    color:white;
+    text-align:center;
+    font-size:16px;
+}
+
+button{
+    margin-top:10px;
+    padding:10px 25px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#maintenance{
+    display:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:white;
+    color:black;
+    z-index:999;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+#maintenance h1{
+    font-size:70px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+
+    <!-- Cambia logo.png por el nombre de tu imagen -->
+    <img src="logo.png" class="logo">
+
+    <h1>SCRIPTS DEL 01 FREE</h1>
+    <p>CONTRASEÑA: EL 01</p>
+
+    <input type="password" id="key" placeholder="Ingresa la contraseña">
+    <br>
+    <button onclick="checkKey()">Entrar</button>
+
+</div>
+
+<div id="maintenance">
+    <h1>404</h1>
+    <h2>PÁGINA EN MANTENIMIENTO</h2>
+    <p>SCRIPTS NO DISPONIBLES</p>
+</div>
+
+<script>
+function checkKey(){
+    const key = document.getElementById("key").value;
+
+    if(key === "EL 01"){
+        document.getElementById("maintenance").style.display = "flex";
+    }else{
+        alert("Contraseña incorrecta");
+    }
+}
+
+// Partículas pequeñas
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<200;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*1.5+0.3,
+        speed:(Math.random()*0.5)+0.1
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.fillStyle="white";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+
+        p.y += p.speed;
+
+        if(p.y > canvas.height){
+            p.y = 0;
+            p.x = Math.random()*canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>

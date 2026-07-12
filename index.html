@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIPTS DEL 01</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            background: rgba(30, 30, 30, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 3s ease infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .key-section {
+            margin-bottom: 20px;
+        }
+
+        .key-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(50, 50, 50, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .key-input:focus {
+            outline: none;
+            border-color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .scripts-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .script-box {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .script-title {
+            color: #00ff00;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .script-code {
+            background: #000;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #00ff00;
+            word-break: break-all;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #0088ff, #0066cc);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 136, 255, 0.5);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: black;
+        }
+
+        .error {
+            color: #ff0000;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">SCRIPTS DEL 01</h1>
+        
+        <div class="key-section" id="keySection">
+            <img src="https://www.roblox.com/asset-thumbnail/image?assetId=116276153232780&width=420&height=420" alt="Logo" class="logo">
+            <input type="text" class="key-input" id="keyInput" placeholder="Ingresa la Key" autocomplete="off">
+            <button class="btn" onclick="checkKey()">ENTRAR</button>
+            <div class="error" id="errorMsg">Key incorrecta, intenta de nuevo</div>
+        </div>
+
+        <div class="scripts-section" id="scriptsSection">
+            <div class="script-box">
+                <div class="script-title">EL 01 ROX HUB</div>
+                <div class="script-code" id="scriptCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()</div>
+                <button class="copy-btn" id="copyBtn" onclick="copyScript()">COPIAR SCRIPT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctKey = "EL 01 ROX HUB";
+        const keyInput = document.getElementById('keyInput');
+        const keySection = document.getElementById('keySection');
+        const scriptsSection = document.getElementById('scriptsSection');
+        const errorMsg = document.getElementById('errorMsg');
+        const copyBtn = document.getElementById('copyBtn');
+        const scriptCode = document.getElementById('scriptCode');
+
+        function checkKey() {
+            if (keyInput.value === correctKey) {
+                keySection.style.display = 'none';
+                scriptsSection.style.display = 'block';
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
+                keyInput.style.borderColor = '#ff0000';
+                setTimeout(() => {
+                    keyInput.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }, 1000);
+            }
+        }
+
+        function copyScript() {
+            navigator.clipboard.writeText(scriptCode.textContent).then(() => {
+                copyBtn.textContent = '¡COPIADO!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'COPIAR SCRIPT';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Enter pa submit
+        keyInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkKey();
+            }
+        });
+    </script>
+</body>
+</html>

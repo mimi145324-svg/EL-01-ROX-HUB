@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>EL 01 ROX HUB</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial;
+  overflow: hidden;
+}
+
+/* 🌈 RAINBOW */
+.rainbow {
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {filter: hue-rotate(0deg);}
+  100% {filter: hue-rotate(360deg);}
+}
+
+/* 🌌 PARTÍCULAS */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* 📍 CENTRO */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 🔤 INPUT */
+input {
+  padding: 12px;
+  width: 250px;
+  background: black;
+  border: 1px solid white;
+  color: white;
+  text-align: center;
+}
+
+/* 🔘 BOTONES SOLO TEXTO */
+button {
+  padding: 10px;
+  margin-top: 10px;
+  width: 100%;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+button:hover {
+  color: gray;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* 📋 COPIAR */
+.copyBox {
+  background: black;
+  border: 1px solid white;
+  padding: 15px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+/* 👥 USUARIOS */
+#users {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<h1 class="rainbow" style="text-align:center;">EL 01 ROX HUB</h1>
+
+<div id="users">EN LÍNEA 1538 USUARIOS</div>
+
+<!-- MENÚ INICIAL -->
+<div class="center" id="menu">
+  <button onclick="showFree()">KEY GRATIS</button>
+  <button onclick="showVIP()">KEY VIP</button>
+</div>
+
+<!-- GRATIS -->
+<div class="center" id="free" style="display:none;">
+  <h2 class="rainbow">KEY GRATIS</h2>
+  <input id="freeKey" placeholder="XXXXXXXXX">
+  <button onclick="checkFree()">ENTRAR</button>
+</div>
+
+<!-- VIP -->
+<div class="center" id="vip" style="display:none;">
+  <h2 class="rainbow">KEY VIP</h2>
+  <input id="vipKey" placeholder="XXXXXXXXX">
+  <button onclick="checkVIP()">ENTRAR</button>
+</div>
+
+<!-- RESULTADO GRATIS -->
+<div class="center" id="result" style="display:none;">
+  <h2 class="rainbow">ÚNICO SCRIPT DISPONIBLE</h2>
+  <div class="copyBox" onclick="copyScript()">
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()
+  </div>
+</div>
+
+<!-- VIP MANTENIMIENTO -->
+<div class="center" id="vipScreen" style="display:none;">
+  <h2 class="rainbow">
+    LOS SCRIPTS DE PAGA EN MANTENIMIENTO,<br>
+    NO DISPONIBLES
+  </h2>
+</div>
+
+<script>
+
+/* 🔄 CAMBIAR PANTALLAS */
+function showFree() {
+  menu.style.display="none";
+  free.style.display="block";
+}
+function showVIP() {
+  menu.style.display="none";
+  vip.style.display="block";
+}
+
+/* 🔑 KEY GRATIS */
+function checkFree() {
+  let key = document.getElementById("freeKey").value;
+  if(key === "EL 01 ROX HUB V1.1"){
+    free.style.display="none";
+    result.style.display="block";
+  } else {
+    alert("KEY INCORRECTA");
+  }
+}
+
+/* 🔑 KEY VIP */
+function checkVIP() {
+  let key = document.getElementById("vipKey").value;
+  if(key === "EL01-GT3925L51AHJ819"){
+    vip.style.display="none";
+    vipScreen.style.display="block";
+  } else {
+    alert("KEY INCORRECTA");
+  }
+}
+
+/* 📋 COPIAR */
+function copyScript() {
+  navigator.clipboard.writeText(`loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()`);
+  alert("COPIADO");
+}
+
+/* 🌌 PARTÍCULAS */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<100;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    vx: Math.random()*2-1,
+    vy: Math.random()*2-1
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="white";
+
+  particles.forEach(p=>{
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if(p.x<0||p.x>canvas.width) p.vx*=-1;
+    if(p.y<0||p.y>canvas.height) p.vy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,2,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+/* 👥 USUARIOS DINÁMICOS */
+let users = 1538;
+setInterval(()=>{
+  users += Math.floor(Math.random()*5-2);
+  document.getElementById("users").innerText = "EN LÍNEA " + users + " USUARIOS";
+},2000);
+
+</script>
+
+</body>
+</html>

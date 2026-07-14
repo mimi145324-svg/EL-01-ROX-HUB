@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 01 ROX HUB</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 🌌 estrellas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* CONTENEDOR */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* TITULO */
+.title {
+  color: #d4ff00;
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* BOTONES */
+.btn {
+  width: 260px;
+  padding: 18px;
+  margin: 10px 0;
+  border-radius: 40px;
+  border: none;
+  font-size: 16px;
+  color: white;
+  background: #3b82f6;
+}
+
+/* INPUT */
+.input {
+  width: 260px;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  margin-top: 15px;
+  background: #0f0f0f;
+  color: white;
+  text-align: center;
+}
+
+.input::placeholder {
+  color: #555;
+}
+
+/* BOTÓN CONTINUAR */
+.continuar {
+  margin-top: 12px;
+  padding: 8px 25px;
+  border-radius: 20px;
+  border: none;
+  background: #d9d9d9;
+  color: black;
+}
+
+/* FINAL */
+#final {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+
+/* COPIAR */
+.copy-box {
+  margin-top: 10px;
+  background: #111;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+/* TEXTO RAINBOW */
+.rainbow {
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s linear infinite;
+}
+
+@keyframes glow {
+  0% {filter: hue-rotate(0deg);}
+  100% {filter: hue-rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="container" id="main">
+  <div class="title">EL 01 ROX HUB</div>
+
+  <button class="btn" onclick="modo('vip')">KEY VIP</button>
+  <button class="btn" onclick="modo('gratis')">KEY GRATIS</button>
+
+  <input class="input" id="keyInput" placeholder="XXXXXXXX">
+
+  <br>
+  <button class="continuar" onclick="verificar()">Continuar</button>
+</div>
+
+<div id="final">
+  <div id="mensaje"></div>
+  <div id="copyArea"></div>
+</div>
+
+<script>
+// 🌌 estrellas
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 120; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2,
+    speed: Math.random() * 0.4
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "white";
+
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    s.y += s.speed;
+
+    if (s.y > canvas.height) {
+      s.y = 0;
+      s.x = Math.random() * canvas.width;
+    }
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// 🔑 lógica
+let tipo = "";
+
+function modo(t) {
+  tipo = t;
+}
+
+function verificar() {
+  const key = document.getElementById("keyInput").value;
+
+  const KEY_VIP = "EL01-GT3925L51AHJ819";
+  const KEY_GRATIS = "EL 01 ROX HUB V1.1";
+
+  if (tipo === "vip" && key === KEY_VIP) {
+    pantallaVIP();
+  }
+  else if (tipo === "gratis" && key === KEY_GRATIS) {
+    mostrarGratis();
+  }
+  else {
+    alert("Key incorrecta");
+  }
+}
+
+// 🟣 VIP
+function pantallaVIP() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("final").style.display = "block";
+
+  document.getElementById("mensaje").innerHTML = `
+    <div class="rainbow">
+      LOS SCRIPTS DE PAGA EN MANTENIMIENTO,<br>
+      NO DISPONIBLES
+    </div>
+  `;
+}
+
+// 🟢 GRATIS
+function mostrarGratis() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("final").style.display = "block";
+
+  document.getElementById("mensaje").innerText = "COPIA TU SCRIPT";
+
+  document.getElementById("copyArea").innerHTML = `
+    <div class="copy-box">
+      <small id="codigo">loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()</small>
+      <br><br>
+      <button onclick="copiar()">Copiar</button>
+    </div>
+  `;
+}
+
+function copiar() {
+  const texto = document.getElementById("codigo").innerText;
+  navigator.clipboard.writeText(texto);
+  alert("Copiado!");
+}
+</script>
+
+</body>
+</html>

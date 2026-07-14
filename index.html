@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EL 01 ROX HUB</title>
+
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: monospace;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* TITULO RAINBOW */
+.rainbow {
+  font-size: 30px;
+  font-weight: bold;
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: move 5s linear infinite;
+}
+
+@keyframes move {
+  0% {background-position: 0%;}
+  100% {background-position: 200%;}
+}
+
+/* BOTONES (AZULES COMO QUERÍAS) */
+button {
+  padding: 12px;
+  margin: 10px;
+  width: 200px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* INPUT */
+input {
+  padding: 10px;
+  width: 250px;
+  background: black;
+  color: white;
+  border: 1px solid white;
+}
+
+/* CAJA SCRIPT */
+.copy-box {
+  background: black;
+  border: 1px solid white;
+  padding: 10px;
+  width: 80%;
+  margin: auto;
+}
+
+/* BOLITAS */
+.bubble {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  animation: float 10s infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-100vh);}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 class="rainbow">EL 01 ROX HUB</h1>
+
+<div id="menu">
+  <button onclick="gratis()">KEY GRATIS</button>
+  <button onclick="vip()">KEY VIP</button>
+</div>
+
+<div id="contenido"></div>
+
+<script>
+
+function crearBurbujas() {
+  for (let i = 0; i < 30; i++) {
+    let b = document.createElement("div");
+    b.className = "bubble";
+    b.style.left = Math.random() * 100 + "vw";
+    b.style.animationDuration = (5 + Math.random()*5) + "s";
+    document.body.appendChild(b);
+  }
+}
+
+function gratis() {
+  document.getElementById("contenido").innerHTML = `
+    <h2>KEY GRATIS</h2>
+    <input id="keyGratis" placeholder="XXXXXXXXX"><br><br>
+    <button onclick="verificarGratis()">ENTRAR</button>
+  `;
+}
+
+function vip() {
+  document.getElementById("contenido").innerHTML = `
+    <h2>KEY VIP</h2>
+    <input id="keyVip" placeholder="XXXXXXXXX"><br><br>
+    <button onclick="verificarVip()">ENTRAR</button>
+  `;
+}
+
+function verificarGratis() {
+  let key = document.getElementById("keyGratis").value;
+
+  if (key === "EL 01 ROX HUB V1.1") {
+    document.body.innerHTML = `
+      <h2 class="rainbow">ÚNICO SCRIPT DISPONIBLE</h2>
+      <p>Key correcta</p>
+      <div class="copy-box">
+        <p id="script">loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()</p>
+        <button onclick="copiar()">COPIAR</button>
+      </div>
+    `;
+    crearBurbujas();
+  } else {
+    alert("Key incorrecta");
+  }
+}
+
+function verificarVip() {
+  let key = document.getElementById("keyVip").value;
+
+  if (key === "EL01-GT3925L51AHJ819") {
+    document.body.innerHTML = `
+      <h2 class="rainbow">SCRIPTS DE PAGA EN MANTENIMIENTO, NO DISPONIBLES</h2>
+    `;
+    crearBurbujas();
+  } else {
+    alert("Key incorrecta");
+  }
+}
+
+function copiar() {
+  let text = document.getElementById("script").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Copiado!");
+}
+
+</script>
+
+</body>
+</html>

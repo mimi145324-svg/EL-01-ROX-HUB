@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 01 ROX HUB</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Fondo de estrellas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Contenido */
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+/* Texto rainbow */
+.rainbow {
+  font-size: 28px;
+  font-weight: bold;
+  background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: move 3s linear infinite;
+}
+
+@keyframes move {
+  0% {background-position: 0%;}
+  100% {background-position: 200%;}
+}
+
+/* Botones */
+.btn {
+  display: block;
+  margin: 15px auto;
+  padding: 12px 25px;
+  width: 200px;
+  border-radius: 20px;
+  border: none;
+  background: #4e8df5;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Caja negra */
+.box {
+  background: black;
+  border-radius: 15px;
+  padding: 15px;
+  width: 80%;
+  margin: 20px auto;
+  color: white;
+}
+
+/* Input */
+input {
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+}
+
+/* Botón copiar */
+.copy {
+  background: #111;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Contador usuarios */
+.users {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #002b2b;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: #00ffcc;
+  font-size: 14px;
+}
+
+/* Pantalla mantenimiento */
+.maintenance {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="users" id="users">EN LÍNEA: 1528 USUARIOS</div>
+
+<div class="container" id="main">
+  <div class="rainbow">EL 01 ROX HUB</div>
+
+  <button class="btn" onclick="showVIP()">KEY VIP</button>
+  <button class="btn" onclick="showFree()">KEY GRATIS</button>
+
+  <div id="content"></div>
+</div>
+
+<!-- Mantenimiento VIP -->
+<div class="maintenance" id="vipScreen">
+  <div class="rainbow">LOS SCRIPTS DE PAGA EN MANTENIMIENTO, NO DISPONIBLES</div>
+</div>
+
+<script>
+/* ESTRELLAS */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+for (let i = 0; i < 150; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "white";
+  stars.forEach(s => {
+    ctx.fillRect(s.x, s.y, s.size, s.size);
+  });
+}
+
+setInterval(drawStars, 50);
+
+/* USUARIOS SUBEN Y BAJAN */
+setInterval(() => {
+  let num = 1400 + Math.floor(Math.random()*200);
+  document.getElementById("users").innerText = "EN LÍNEA: " + num + " USUARIOS";
+}, 2000);
+
+/* KEY GRATIS */
+function showFree() {
+  document.getElementById("content").innerHTML = `
+    <div class="box">
+      <div>Ingresa tu key</div>
+      <input id="freeKey" placeholder="XXXXXXXXX">
+      <br>
+      <button class="btn" onclick="checkFree()">Aceptar</button>
+    </div>
+  `;
+}
+
+function checkFree() {
+  let key = document.getElementById("freeKey").value;
+
+  if (key === "EL 01 ROX HUB V1.1") {
+    document.getElementById("content").innerHTML = `
+      <div class="rainbow">ÚNICO SCRIPTS DISPONIBLE</div>
+      <div class="box">
+        <div>ÚNICO DISPONIBLE GRATIS</div>
+        <div class="copy" onclick="copyScript()">
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()
+        </div>
+      </div>
+    `;
+  } else {
+    alert("Key incorrecta");
+  }
+}
+
+/* KEY VIP */
+function showVIP() {
+  document.getElementById("content").innerHTML = `
+    <div class="box">
+      <div>Ingresa tu key VIP</div>
+      <input id="vipKey" placeholder="XXXXXXXXX">
+      <br>
+      <button class="btn" onclick="checkVIP()">Aceptar</button>
+    </div>
+  `;
+}
+
+function checkVIP() {
+  let key = document.getElementById("vipKey").value;
+
+  if (key === "EL01-GT3925L51AHJ819") {
+    document.getElementById("main").style.display = "none";
+    document.getElementById("vipScreen").style.display = "flex";
+  } else {
+    alert("Key incorrecta");
+  }
+}
+
+/* COPIAR */
+function copyScript() {
+  navigator.clipboard.writeText(`loadstring(game:HttpGet("https://raw.githubusercontent.com/mimi145324-svg/EL-01-ROX-HUB/main/main.lua"))()`);
+  alert("Copiado");
+}
+</script>
+
+</body>
+</html>

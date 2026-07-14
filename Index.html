@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 01 ROX HUB</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
+
+/* Fondo estrellas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Contenedor principal */
+#main {
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+/* Título */
+h1 {
+  color: #caff00;
+  font-size: 22px;
+}
+
+/* Botones */
+.btn {
+  display: block;
+  margin: 10px auto;
+  padding: 15px;
+  width: 200px;
+  border-radius: 25px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  font-size: 16px;
+}
+
+/* Input */
+input {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  width: 200px;
+  text-align: center;
+  background: #111;
+  color: white;
+}
+
+/* Botón continuar */
+#continuar {
+  margin-top: 10px;
+  padding: 8px 20px;
+  border-radius: 15px;
+  border: none;
+}
+
+/* Pantalla final */
+#final {
+  display: none;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+}
+
+/* Copiar */
+.copy-box {
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div id="main">
+  <h1>EL 01 ROX HUB</h1>
+
+  <button class="btn" onclick="modo('vip')">KEY VIP</button>
+  <button class="btn" onclick="modo('gratis')">KEY GRATIS</button>
+
+  <input id="keyInput" placeholder="XXXXXXXX">
+  <br>
+  <button id="continuar" onclick="verificar()">Continuar</button>
+</div>
+
+<div id="final">
+  <h2 id="mensaje"></h2>
+  <div id="copyArea"></div>
+</div>
+
+<script>
+// 🌟 ESTRELLAS
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 100; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2,
+    speed: Math.random() * 0.5
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "white";
+
+  stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.fill();
+
+    s.y += s.speed;
+
+    if (s.y > canvas.height) {
+      s.y = 0;
+      s.x = Math.random() * canvas.width;
+    }
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// 🔑 LOGICA
+let tipo = "";
+
+function modo(t) {
+  tipo = t;
+}
+
+function verificar() {
+  const key = document.getElementById("keyInput").value;
+
+  // 🔑 CAMBIA TUS KEYS AQUÍ
+  const KEY_VIP = "VIP123";
+  const KEY_GRATIS = "FREE123";
+
+  if (tipo === "vip" && key === KEY_VIP) {
+    mostrarFinal("VIP ACTIVADO");
+  }
+  else if (tipo === "gratis" && key === KEY_GRATIS) {
+    mostrarGratis();
+  }
+  else {
+    alert("Key incorrecta");
+  }
+}
+
+function mostrarFinal(texto) {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("final").style.display = "block";
+  document.getElementById("mensaje").innerText = texto;
+}
+
+// 📋 GRATIS → copiar
+function mostrarGratis() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("final").style.display = "block";
+
+  document.getElementById("mensaje").innerText = "COPIA TU CÓDIGO";
+
+  document.getElementById("copyArea").innerHTML = `
+    <div class="copy-box">
+      <span id="codigo">ROX-HUB-2024</span>
+      <button onclick="copiar()">Copiar</button>
+    </div>
+  `;
+}
+
+function copiar() {
+  const texto = document.getElementById("codigo").innerText;
+  navigator.clipboard.writeText(texto);
+  alert("Copiado!");
+}
+</script>
+
+</body>
+</html>
